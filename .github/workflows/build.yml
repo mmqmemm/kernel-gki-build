@@ -16,6 +16,11 @@ jobs:
           sudo git config --global user.email "localhost"
           sudo timedatectl set-timezone Asia/Jakarta
 
+      - name: Set Swap to 10GB
+        uses: pierotofy/set-swap-space@master
+        with:
+          swap-size-gb: 10
+
       - name: Setup kernel source
         run: |
           repo init --repo-rev=v2.16 --depth=1 -u https://android.googlesource.com/kernel/manifest -b common-android12-5.10-lts
