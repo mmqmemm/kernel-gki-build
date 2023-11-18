@@ -14,11 +14,11 @@ jobs:
           sudo apt update && sudo apt install repo -y
           sudo git config --global user.name "root"
           sudo git config --global user.email "localhost"
-          sudo timedatectl set-timezone Asia/Shanghai
+          sudo timedatectl set-timezone Asia/Jakarta
 
       - name: Setup kernel source
         run: |
-          repo init --repo-rev=v2.16 --depth=1 -u https://android.googlesource.com/kernel/manifest -b common-android13-5.15-lts
+          repo init --repo-rev=v2.16 --depth=1 -u https://android.googlesource.com/kernel/manifest -b common-android12-5.10-lts
           repo sync -c --no-tags
 
       - name: Setup KernelSU
@@ -28,7 +28,7 @@ jobs:
 
       - name: Build images
         run: |
-          wget -O common/build.config.gki https://raw.githubusercontent.com/bugme2/kernel-gki-build/main/build.config.gki
+          wget -O common/build.config.gki https://raw.githubusercontent.com/jonesqpacman/kernel-gki-build/main/build.config.gki
           sed -i 's/ -dirty//g' common/scripts/setlocalversion
           LTO=thin BUILD_CONFIG=common/build.config.gki.aarch64 build/build.sh
           echo "BUILD_TIME=$(date +'%Y-%m-%d-%H%M')" >> $GITHUB_ENV
