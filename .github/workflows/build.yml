@@ -25,6 +25,8 @@ jobs:
         run: |
           repo init --repo-rev=v2.16 --depth=1 -u https://android.googlesource.com/kernel/manifest -b common-android12-5.10-lts
           repo sync -c --no-tags
+          rm -rf common
+          git clone --depth=1 https://github.com/MiCode/Xiaomi_Kernel_OpenSource -b bsp-aristotle-s-oss common
 
       - name: Setup KernelSU
         run: |
@@ -36,7 +38,7 @@ jobs:
           #wget -O common/build.config.gki https://raw.githubusercontent.com/JonesqPacMan/kernel-gki-build/master/build.config.gki
           sed -i 's/kvm-arm.mode=protected/androidboot.selinux=permissive kvm-arm.mode=nvhe/g' common/arch/arm64/configs/gki_defconfig
           sed -i 's/ -dirty/-KSU/g' common/scripts/setlocalversion
-          LTO=thin BUILD_CONFIG=common/build.config.gki.aarch64 build/build.sh
+          BUILD_CONFIG=common/build.config.gki.aarch64 build/build.sh
           echo "BUILD_TIME=$(date +'%Y-%m-%d-%H%M')" >> $GITHUB_ENV
 
       - name: Upload build artifact
