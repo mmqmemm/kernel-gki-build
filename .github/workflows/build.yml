@@ -34,6 +34,7 @@ jobs:
           cat KernelSU/kernel/export_symbol.txt | awk '{sub("[ \t]+","");print "  "$0}' >> common/android/abi_gki_aarch64
 
       - name: Build images
+        if: always()
         run: |
           #wget -O common/build.config.gki https://raw.githubusercontent.com/JonesqPacMan/kernel-gki-build/master/build.config.gki
           sed -i 's/kvm-arm.mode=protected/androidboot.selinux=permissive kvm-arm.mode=nvhe/g' common/arch/arm64/configs/gki_defconfig
