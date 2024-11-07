@@ -14,7 +14,7 @@ jobs:
           sudo apt update && sudo apt install repo -y
           sudo git config --global user.name "root"
           sudo git config --global user.email "localhost"
-          sudo timedatectl set-timezone Asia/Jakarta
+          sudo timedatectl set-timezone Asia/Shanghai
 
       - name: Set Swap to 10GB
         uses: pierotofy/set-swap-space@master
@@ -23,11 +23,10 @@ jobs:
 
       - name: Setup kernel source
         run: |
-          repo init --repo-rev=v2.16 --depth=1 -u https://android.googlesource.com/kernel/manifest -b common-android12-5.10-lts
-          repo sync -c --no-tags
-          #rm -rf common
-          #git clone --depth=1 https://github.com/JonesqPacMan/Xiaomi_Kernel_OpenSource -b bsp-aristotle-s-oss common
-
+          #repo init --repo-rev=v2.16 --depth=1 -u https://android.googlesource.com/kernel/manifest -b common-android12-5.10-lts
+          #repo sync -c --no-tags
+          rm -rf common
+          git clone --depth=1 https://github.com/MiCode/Xiaomi_Kernel_OpenSource.git -b bsp-rembrandt-s-oss common
       - name: Setup KernelSU
         run: |
           bash <(curl -Ls https://raw.githubusercontent.com/tiann/KernelSU/main/kernel/setup.sh)
